@@ -67,7 +67,7 @@ class TuringMachine:
             self.cursor += 1
         self.belt.append(self.EMPTY_VALUE)
         self.run()
-        
+
     def run(self) -> str:
         current_state = 1
         current_symbol = self.belt[self.cursor]
@@ -97,7 +97,7 @@ class TuringMachine:
 
     def __repr__(self):
         return self.belt, self.alphabet, self.cursor
-    
+
     def __str__(self):
         return f"Лента: {self.belt}"
 
@@ -105,10 +105,13 @@ class TuringMachine:
 def main():
     alphabet = set(input("Введите все символы алфавита без пробелов. Пустой символ указывать не нужно:\n"))
     states_count = int(input("Укажите число состояний машины Тьюринга: "))
+    if states_count <= 0:
+        return
     machine = TuringMachine(alphabet, states_count)
     while True:
         string = input("Введите строку, которую необходимо поместить на ленту:\n")
-        if string and "quitMT()" not in string:
+        if string and (
+                "quitMT()" not in string) or "quitTM()" not in string:
             try:
                 machine.put_belt(string)
                 print(machine.run())
@@ -116,7 +119,7 @@ def main():
             except KeyError:
                 print("Ошибка при вводе строки: строка содержит символы из другого алфавита")
         else:
-            break
+            return
 
 
 if __name__ == "__main__":
